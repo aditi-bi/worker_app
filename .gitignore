@@ -13,3 +13,4 @@ Claude outputs
 .env.*.local
 design
 design/
+local-data/
