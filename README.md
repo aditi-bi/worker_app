@@ -23,18 +23,9 @@ By default the app runs on built-in sample data. To connect real services, put t
 | Voice (optional) | Sarvam | `SARVAM_API_KEY`, `VITE_VOICE_API_URL=/voice` |
 | "Call Phala" button | The inbound phone number | `VITE_PHALA_INBOUND_NUMBER` |
 
-Without a voice key, the phone's own speech recognition is used. Hisaab (earnings) always uses sample data.
+Without a voice key, the phone's own speech recognition is used.
 
 The backend token and the Sarvam key stay on the server. The browser never sees them.
-
-## Put it online (Vercel)
-
-1. Upload this folder to GitHub and import it in Vercel. `vercel.json` sets the build.
-2. In Vercel, add these environment variables: `PROFILE_API_TARGET`, `PROFILE_API_TOKEN`, `VITE_APPLY_SCRIPT_URL`.
-3. For real jobs, also add `JOBS_API_TARGET` and `VITE_JOBS_API_URL=/api/jobs-api`. For Sarvam voice, add `SARVAM_API_KEY` and `VITE_VOICE_API_URL=/api/voice`.
-4. Redeploy after changing any `VITE_` value.
-
-Other hosting: `server/README.md` explains the small Node server (`npm run serve`) that does the same job.
 
 ## Commands
 
