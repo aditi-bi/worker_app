@@ -29,3 +29,19 @@
 Or with Docker: `docker build -t phala . && docker run -p 8080:8080 -e PROFILE_API_TARGET=... -e PROFILE_API_TOKEN=... -e SARVAM_API_KEY=... phala`.
 
 Any host that runs Node or Docker works (Render, Railway, Fly.io, a small VPS). Put HTTPS in front (most hosts do this for you).
+
+## Hosting on Vercel
+
+`vercel.json` builds the app and the single function in `api/[...path].ts` does the same job as `start.ts` (profile, jobs and voice go through it, so the backend token and the Sarvam key stay on the server).
+Add these in Vercel: Project Settings -> Environment Variables (all environments):
+
+| Name | Value |
+| --- | --- |
+| `PROFILE_API_TARGET` | the backend address, for example `https://kural.phala.work` |
+| `PROFILE_API_TOKEN` | the backend bearer token |
+| `JOBS_API_TARGET` and `VITE_JOBS_API_URL=/api/jobs-api` | the job list server address (no `/api/jobs/` at the end); add both only when the address works, until then the app shows sample jobs |
+| `JOBS_API_TOKEN` | only if the job server needs one |
+| `VITE_APPLY_SCRIPT_URL` | the Google Apps Script web app address |
+| `SARVAM_API_KEY` and `VITE_VOICE_API_URL=/api/voice` | optional, to turn on Sarvam voice |
+
+`VITE_` values are read while the app is built, so redeploy after changing one.
