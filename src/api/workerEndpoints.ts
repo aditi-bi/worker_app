@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { getToken } from "@/features/auth/tokenStore";
+import { getToken, setToken } from "@/features/auth/tokenStore";
 import { getContact } from "@/features/applications/localStore";
-import { PROFILE_API_BASE, apiRequest } from "./client";
+import { PROFILE_API_BASE, apiRequest, profileIsReal } from "./client";
 import {
   findJob,
   jobsForMePage,
@@ -59,6 +59,24 @@ const lookupProfile = (phone: string, signal?: AbortSignal) =>
     signal,
     ...profileAuth,
   });
+
+const UUID_SHAPE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * The profile id to edit. With the real backend it must be the profile's UUID. A token left over from the sample data
+ * (it starts with "w_") is replaced by the real id, found from the phone number, so the worker never has to start over.
+ */
+async function currentProfileId(): Promise<string> {
+  const token = getToken();
+  if (!token) throw new ApiError("unauthorized");
+  if (!profileIsReal() || UUID_SHAPE.test(token)) return token;
+  const phone = getContact()?.phone;
+  if (!phone) throw new ApiError("unauthorized");
+  const found = await lookupProfile(phone);
+  if (!found.found) throw new ApiError("not_found");
+  setToken(found.id);
+  return found.id;
+}
 
 async function readProfile(signal?: AbortSignal): Promise<Worker> {
   const phone = getContact()?.phone;
@@ -142,10 +160,8 @@ export const workerApi = {
   getMe: (signal?: AbortSignal) => readProfile(signal),
   /** PATCH /worker-profile, then read the profile back. The phone number cannot be changed. */
   updateMe: async (patch: WorkerPatch) => {
-    const id = getToken();
-    if (!id) throw new ApiError("unauthorized");
     const fields = toBackendFields(patchToFields(patch));
-    if (Object.keys(fields).length > 0) await patchProfile(id, fields);
+    if (Object.keys(fields).length > 0) await patchProfile(await currentProfileId(), fields);
     return readProfile();
   },
 
