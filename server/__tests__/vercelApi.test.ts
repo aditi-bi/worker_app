@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { GET, PATCH, POST } from '../../api/[...path].ts'
+import { GET, PATCH, POST } from '../../api/index.ts'
 
 const origin = 'https://app.example'
 const ok = (body: unknown, status = 200, type = 'application/json') =>

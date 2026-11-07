@@ -13,5 +13,5 @@
     "noEmit": true,
     "strict": true
   },
-  "include": ["vite.config.ts", "voice-proxy.ts", "server/start.ts", "api/[...path].ts"]
+  "include": ["vite.config.ts", "voice-proxy.ts", "server/start.ts", "api/index.ts"]
 }

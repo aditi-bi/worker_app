@@ -1,5 +1,5 @@
 /**
- * The live app's server side on Vercel: one Vercel Function that answers every /api/* address.
+ * The live app's server side on Vercel: one Vercel Function (vercel.json sends every /api/* address to it) that answers them.
  *  - /api/profile/*          -> the existing backend (PROFILE_API_TARGET) with its bearer token added here, so the browser never
  *                               sees the token and the backend needs no CORS setup. Only the /worker-profile routes are reachable.
  *  - /api/jobs-api/api/jobs/ -> the job list server (JOBS_API_TARGET). Only the list is reachable, GET only.
