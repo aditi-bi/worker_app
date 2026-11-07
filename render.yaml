@@ -1,0 +1,18 @@
+# Render blueprint: New + -> Blueprint -> pick this repository. Then fill in the settings marked sync: false.
+services:
+  - type: web
+    name: phala-app
+    runtime: docker
+    plan: starter
+    healthCheckPath: /health
+    envVars:
+      - key: JOBS_API_TARGET
+        value: https://licensed-advisors-helen-controllers.trycloudflare.com
+      - key: PROFILE_API_TARGET
+        sync: false
+      - key: PROFILE_API_TOKEN
+        sync: false
+      - key: VITE_APPLY_SCRIPT_URL
+        sync: false
+      - key: SARVAM_API_KEY
+        sync: false

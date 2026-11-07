@@ -1,0 +1,15 @@
+node_modules
+dist
+*.local
+.env.local
+.DS_Store
+*.tsbuildinfo
+
+# Leftover working files, not part of the app
+_dist.tgz
+_flow.cjs
+Claude outputs
+.env
+.env.*.local
+design
+design/
